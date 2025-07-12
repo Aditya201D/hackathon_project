@@ -92,26 +92,72 @@ const SynthAssistant = () => {
   ]);
   const [input, setInput] = useState("");
 
-  const handleSend = () => {
+  // Define playClickSound within this component
+  const playClickSound = () => {
+    const clickSound = new Audio('src/assets/click_sound.wav');
+    clickSound.volume = 0.3;
+    clickSound.play().catch(e => console.log('Click sound failed:', e));
+  };
+
+  const getSynthResponse = async (msg) => {
+    try {
+      // Example using Hugging Face API (free)
+      // Uncomment and add your token to use real AI
+      /*
+      const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer YOUR_HF_TOKEN_HERE',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inputs: msg,
+          parameters: {
+            max_new_tokens: 100,
+            temperature: 0.7,
+          }
+        })
+      });
+      
+      const data = await response.json();
+      return data[0]?.generated_text || "SYNTH-AI processing... try again in a moment 🤖";
+      */
+      
+      // Fallback responses (current implementation)
+      if (msg.includes("name")) return "I'm SYNTH-AI, your cyberpunk companion from 2085!";
+      if (msg.includes("hello") || msg.includes("hi")) return "Greetings, cyber-citizen! Ready to surf the neon highways?";
+      if (msg.includes("joke")) return "Why did the hacker break up with the internet? Too many trust issues! 😎";
+      if (msg.includes("help")) return "Try asking about my name, a joke, or let's cruise the digital realm together 🌟";
+      if (msg.includes("love")) return "Love.exe has stopped responding... firewall active 💙";
+      if (msg.includes("synthwave") || msg.includes("retro")) return "Now you're speaking my language! Retro-futuristic vibes engaged! 🚀";
+      if (msg.includes("matrix")) return "There is no spoon... only neon dreams 🌈";
+      return "ERROR 404: Understanding not found... rebooting humor.dll 🔄";
+    } catch (error) {
+      console.error('AI API Error:', error);
+      return "SYNTH-AI offline... manual mode activated 🛠️";
+    }
+  };
+
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     playClickSound();
     const userMessage = { from: 'user', text: input };
-    const response = getSynthResponse(input.toLowerCase());
-
-    setMessages([...messages, userMessage, { from: 'bot', text: response }]);
+    
+    // Add user message immediately
+    setMessages(prev => [...prev, userMessage]);
+    const userInput = input;
     setInput("");
-  };
-
-  const getSynthResponse = (msg) => {
-    if (msg.includes("name")) return "I'm SYNTH-AI, your cyberpunk companion from 2085!";
-    if (msg.includes("hello") || msg.includes("hi")) return "Greetings, cyber-citizen! Ready to surf the neon highways?";
-    if (msg.includes("joke")) return "Why did the hacker break up with the internet? Too many trust issues! 😎";
-    if (msg.includes("help")) return "Try asking about my name, a joke, or let's cruise the digital realm together 🌟";
-    if (msg.includes("love")) return "Love.exe has stopped responding... firewall active 💙";
-    if (msg.includes("synthwave") || msg.includes("retro")) return "Now you're speaking my language! Retro-futuristic vibes engaged! 🚀";
-    if (msg.includes("matrix")) return "There is no spoon... only neon dreams 🌈";
-    return "ERROR 404: Understanding not found... rebooting humor.dll 🔄";
+    
+    // Add loading message
+    const loadingMessage = { from: 'bot', text: "PROCESSING... 🔄" };
+    setMessages(prev => [...prev, loadingMessage]);
+    
+    // Get AI response
+    const response = await getSynthResponse(userInput.toLowerCase());
+    
+    // Replace loading message with actual response
+    setMessages(prev => [...prev.slice(0, -1), { from: 'bot', text: response }]);
   };
 
   return (
@@ -283,8 +329,6 @@ const SynthwaveDesktop = () => {
         <div className="absolute top-3/4 right-1/4 w-24 h-24 bg-cyan-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
         <div className="absolute top-1/2 left-3/4 w-20 h-20 bg-pink-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
         
-        {/* RetroXP Video Overlay - REMOVED */}
-
         {/* Desktop Icons - Left Side */}
         <div className="absolute top-4 left-4 space-y-4">
           {desktopIcons.map((icon) => (
