@@ -68,7 +68,13 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
         </div>
       ) : window.title === 'Synth Assistant' ? (
         <SynthAssistant />
-      ) : (
+      ) : window.title === 'Terminal' ? (
+        <TerminalWindow 
+        window={window}
+        closeWindow={closeWindow}
+        minimizeWindow={minimizeWindow}
+        updateWindowContent={updateWindowContent}
+        />) : (
         <div className="text-center text-cyan-300 mt-20">
           <div className="text-4xl mb-4 animate-pulse">
             {window.title === 'Neural Core' ? '🧠' : 
@@ -170,6 +176,75 @@ const SynthAssistant = () => {
   );
 };
 
+  const TerminalWindow = ({ window, closeWindow, minimizeWindow, updateWindowContent }) => {
+  const [lines, setLines] = useState([
+    "Synthwave Terminal v1.0",
+    "Type 'help' for a list of commands."
+  ]);
+  const [input, setInput] = useState("");
+  const inputRef = React.useRef();
+
+  React.useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, [lines]);
+
+  const handleCommand = (cmd) => {
+    let output = "";
+    switch (cmd.trim()) {
+      case "help":
+        output = "Available: help, about, date, clear, echo [msg]";
+        break;
+      case "about":
+        output = "Synthwave OS Terminal - Futuristic vibes!";
+        break;
+      case "date":
+        output = new Date().toString();
+        break;
+      case "":
+        output = "";
+        break;
+      default:
+        if (cmd.startsWith("echo ")) {
+          output = cmd.slice(5);
+        } else if (cmd === "clear") {
+          setLines([]);
+          return;
+        } else {
+          output = "Unknown command: " + cmd;
+        }
+    }
+    setLines((prev) => [...prev, `> ${cmd}`, output]);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleCommand(input);
+      setInput("");
+    }
+  };
+
+  return (
+    <div className="h-full w-full bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 p-2 font-mono text-cyan-200 rounded-lg shadow-inner border-2 border-purple-500 flex flex-col">
+      <div className="flex-1 overflow-y-auto text-xs mb-2">
+        {lines.map((line, i) => (
+          <div key={i} className={line.startsWith(">") ? "text-pink-400" : ""}>{line}</div>
+        ))}
+      </div>
+      <div className="flex">
+        <span className="text-purple-400 mr-1">$</span>
+        <input
+          ref={inputRef}
+          className="flex-1 bg-transparent outline-none border-none text-cyan-100"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          autoFocus
+        />
+      </div>
+    </div>
+  );
+};
+
 const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
@@ -220,6 +295,7 @@ const SynthwaveDesktop = () => {
     { id: 4, name: 'CyberNet Explorer', icon: '🌐' }, 
     { id: 5, name: 'NeoText', icon: '📡' },
     { id: 6, name: 'Synth Assistant', icon: '🤖' },
+    { id: 7, name: 'Terminal', icon: '💻' },
   ];
 
   const startMenuItems = [
@@ -230,6 +306,7 @@ const SynthwaveDesktop = () => {
     { name: 'Control Matrix', icon: '⚙️' },
     { name: 'Execute...', icon: '▶️' },
     { name: 'Synth Assistant', icon: '🤖' },
+    { name: 'Terminal', icon: '💻' },
   ];
 
   const synthBeats = [
