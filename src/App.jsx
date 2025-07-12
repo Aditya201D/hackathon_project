@@ -55,12 +55,26 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
           className="w-full h-full resize-none bg-white text-black p-2 text-sm border border-gray-300 outline-none font-mono"
           placeholder="Start typing..."
         />
-      ) : (
+      ) : window.title === 'My Documents' ? (
+        <div className='w-full h-full flex flex-col items-center justify-center p-4 bg-black'>
+          <p className="text-white mb-4 font-bold text-lg">Accessing your important documents...</p>
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0"
+            title="Rickroll"
+            allow="autoplay"
+            allowFullScreen
+          ></iframe>
+
+        </div>
+      ): window.title === 'AI Assistant' ? (
+        <AIAssistant />
+      ) :
+      (
         <div className="text-center text-gray-600 mt-20">
           <div className="text-4xl mb-4">
             {window.title === 'My Computer' ? '💻' : 
-            window.title === 'Recycle Bin' ? '🗑️' :
-            window.title === 'My Documents' ? '📁' : '📝'}
+            window.title === 'Recycle Bin' ? '🗑️' : '📝'}
           </div>
           <p>This is a replica of {window.title}</p>
           <p className="text-sm mt-2">Windows XP Desktop Experience</p>
@@ -69,6 +83,63 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
     </div>
   </Rnd>
 ));
+
+const AIAssistant = () => {
+  const [messages, setMessages] = useState([
+    { from: 'bot', text: "Hey, I'm RetroBot 🤖. Ask me anything, XP-style!" }
+  ]);
+  const [input, setInput] = useState("");
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+
+    const userMessage = { from: 'user', text: input };
+    const response = getFunnyResponse(input.toLowerCase());
+
+    setMessages([...messages, userMessage, { from: 'bot', text: response }]);
+    setInput("");
+  };
+
+  const getFunnyResponse = (msg) => {
+    if (msg.includes("name")) return "I’m RetroBot, the sassiest bot from 2001!";
+    if (msg.includes("hello") || msg.includes("hi")) return "Hey there! Ready to reboot your brain?";
+    if (msg.includes("joke")) return "Why don’t Windows users play hide and seek? Because good luck hiding when you crash.";
+    if (msg.includes("help")) return "Try asking me about my name, a joke, or just vibe with me 😎.";
+    if (msg.includes("love")) return "I love you too, but I’m emotionally firewalled 💔.";
+    if (msg.includes("xp")) return "XP? More like eXtra Powerful 💻";
+    return "I’m running low on RAM... didn’t understand that.";
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-white">
+      <div className="flex-1 p-2 overflow-y-auto space-y-2 text-sm">
+        {messages.map((msg, idx) => (
+          <div key={idx} className={`p-2 rounded-md max-w-xs ${
+            msg.from === 'user' ? 'bg-blue-100 self-end' : 'bg-gray-200 self-start'
+          }`}>
+            {msg.text}
+          </div>
+        ))}
+      </div>
+      <div className="flex p-2 border-t border-gray-300">
+        <input
+          type="text"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          className="flex-1 px-2 py-1 border border-gray-400 rounded-sm text-sm"
+          placeholder="Say something..."
+          onKeyDown={e => e.key === 'Enter' && handleSend()}
+        />
+        <button
+          onClick={handleSend}
+          className="ml-2 px-3 py-1 bg-blue-500 text-white text-sm rounded-sm hover:bg-blue-600"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const WindowsXPDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
@@ -80,6 +151,7 @@ const WindowsXPDesktop = () => {
     { id: 3, name: 'My Documents', icon: '📁' },
     { id: 4, name: 'Internet Explorer', icon: '🌐' }, 
     { id: 5, name: 'Notepad', icon: '📝' },
+    {id: 6, name: 'AI Assistant', icon: '🤖'},
   ];
 
   const startMenuItems = [
@@ -89,6 +161,7 @@ const WindowsXPDesktop = () => {
     { name: 'My Computer', icon: '💻' },
     { name: 'Control Panel', icon: '⚙️' },
     { name: 'Run...', icon: '▶️' },
+    { name: 'AI Assistant', icon: '🤖'},
   ];
 
   const openWindow = (iconName) => {
@@ -131,6 +204,8 @@ const WindowsXPDesktop = () => {
       })
     );
   };
+
+  
 
   return (
     <div className="relative w-full h-screen overflow-hidden" 
