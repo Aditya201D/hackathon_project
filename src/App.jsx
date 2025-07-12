@@ -430,6 +430,16 @@ const SynthwaveDesktop = () => {
           letter-spacing: 0.2em;
           animation: flicker 2s linear forwards;
         }
+        @keyframes flicker-minimal {
+          0%, 100% { opacity: 0.13; }
+          48% { opacity: 0.18; }
+          50% { opacity: 0.10; }
+          52% { opacity: 0.18; }
+          60% { opacity: 0.13; }
+        }
+        .flicker-minimal {
+          animation: flicker-minimal 2.5s infinite;
+        }
       `}</style>
       {booting && (
   <div className="bootup-overlay">
@@ -440,6 +450,20 @@ const SynthwaveDesktop = () => {
       <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-cyan-900">
         {/* Animated Grid Background */}
         <div className="absolute inset-0 grid-bg opacity-20"></div>
+
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+          <span
+            className="text-6xl md:text-8xl font-extrabold tracking-widest flicker-minimal"
+            style={{
+              fontFamily: "'Orbitron', 'Share Tech Mono', 'monospace', 'sans-serif'",
+              color: "#a78bfa",
+              opacity: 0.13,
+              textShadow: "0 0 24px #a78bfa, 0 0 2px #fff"
+            }}
+          >
+            Synthwave OS
+          </span>
+        </div>
         
         {/* Neon Orbs */}
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
