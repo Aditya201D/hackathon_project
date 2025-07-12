@@ -174,6 +174,8 @@ const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [booting, setBooting] = useState(true);
+  const [currentSong, setCurrentSong] = useState('src/assets/Timecop1983 - On the Run.mp3');
+  const [audioObj, setAudioObj] = useState(null);
   
   // Audio setup
   React.useEffect(() => {
@@ -181,24 +183,28 @@ const SynthwaveDesktop = () => {
     const timer = setTimeout(() => setBooting(false), 2500); // 2.5s boot
     return () => clearTimeout(timer);
   }, []);
+  
+  // Background music
   React.useEffect(() => {
-    const backgroundAudio = new Audio('src/assets/Timecop1983 - On the Run.mp3');
-    backgroundAudio.loop = true;
-    backgroundAudio.volume = 0.55; // Medium volume
-    
-    // Start playing background music
-    const playAudio = () => {
-      backgroundAudio.play().catch(e => console.log('Audio play failed:', e));
-    };
-    
-    // Auto-play when component mounts (after user interaction)
-    document.addEventListener('click', playAudio, { once: true });
-    
-    return () => {
-      backgroundAudio.pause();
-      document.removeEventListener('click', playAudio);
-    };
-  }, []);
+  if (audioObj) {
+    audioObj.pause();
+  }
+  const newAudio = new Audio(currentSong);
+  newAudio.loop = true;
+  newAudio.volume = 0.55;
+  setAudioObj(newAudio);
+
+  // Play after user interaction
+  const playAudio = () => {
+    newAudio.play().catch(e => {});
+  };
+  document.addEventListener('click', playAudio, { once: true });
+
+  return () => {
+    newAudio.pause();
+    document.removeEventListener('click', playAudio);
+  };
+}, [currentSong]);
   
   // Click sound function
   const playClickSound = () => {
@@ -224,6 +230,14 @@ const SynthwaveDesktop = () => {
     { name: 'Control Matrix', icon: '⚙️' },
     { name: 'Execute...', icon: '▶️' },
     { name: 'Synth Assistant', icon: '🤖' },
+  ];
+
+  const synthBeats = [
+  { name: "Automatic Pilot", file: "src/assets/Automatic_Pilot.mp3" },
+  { name: "Broken City", file: "src/assets/Broken_City.mp3" },
+  { name: "Don't Be Afraid Of Your Emotions", file: "src/assets/Don't_Be_Afraid_Of_Your_Emotions.mp3" },
+  { name: "The Sky is Shining Tonight", file: "src/assets/The_Sky_is_Shining_Tonight.mp3" },
+  { name: "Tomorrow Will Be Rain", file: "src/assets/Tomorrow_Will_Be_Rain.mp3" },
   ];
 
   const openWindow = (iconName) => {
@@ -398,19 +412,47 @@ const SynthwaveDesktop = () => {
             </div>
             <div className="bg-gray-800">
               {startMenuItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center space-x-3 px-4 py-2 hover:bg-purple-600 hover:bg-opacity-30 cursor-pointer text-cyan-300 transition-all duration-200 hover:shadow-lg hover:shadow-purple-400/30"
-                  onClick={() => {
-                    playClickSound();
-                    openWindow(item.name);
-                    setStartMenuOpen(false);
-                  }}
-                >
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="text-sm font-mono">{item.name}</span>
-                </div>
-              ))}
+  item.name === 'Synth Beats' ? (
+    <div key={index} className="px-4 py-2">
+      <div className="flex items-center space-x-3 text-cyan-300 font-mono mb-1">
+        <span className="text-lg">{item.icon}</span>
+        <span className="text-sm">Synth Beats</span>
+      </div>
+      <div className="ml-7 flex flex-col space-y-1">
+        {synthBeats.map((beat, i) => (
+          <button
+            key={beat.file}
+            className={`text-left text-xs px-2 py-1 rounded transition-colors ${
+              currentSong === beat.file
+                ? 'bg-purple-700 text-white font-bold'
+                : 'bg-gray-800 text-cyan-200 hover:bg-purple-600'
+            }`}
+            onClick={() => {
+              playClickSound();
+              setCurrentSong(beat.file);
+              setStartMenuOpen(false);
+            }}
+          >
+            {beat.name}
+          </button>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div
+      key={index}
+      className="flex items-center space-x-3 px-4 py-2 hover:bg-purple-600 hover:bg-opacity-30 cursor-pointer text-cyan-300 transition-all duration-200 hover:shadow-lg hover:shadow-purple-400/30"
+      onClick={() => {
+        playClickSound();
+        openWindow(item.name);
+        setStartMenuOpen(false);
+      }}
+    >
+      <span className="text-lg">{item.icon}</span>
+      <span className="text-sm font-mono">{item.name}</span>
+    </div>
+  )
+))}
             </div>
             <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-2">
               <div className="flex justify-between">
