@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Rnd} from 'react-rnd';
 
 const WindowsXPDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
@@ -12,14 +13,7 @@ const WindowsXPDesktop = () => {
     { id: 5, name: 'Notepad', icon: '📝' },
   ];
 
-  const startMenuItems = [
-    { name: 'My Documents', icon: '📁' },
-    { name: 'My Pictures', icon: '🖼️' },
-    { name: 'My Music', icon: '🎵' },
-    { name: 'My Computer', icon: '💻' },
-    { name: 'Control Panel', icon: '⚙️' },
-    { name: 'Run...', icon: '▶️' },
-  ];
+  
 
   const openWindow = (iconName) => {
     if (!openWindows.find(w => w.title === iconName)) {
@@ -47,52 +41,55 @@ const WindowsXPDesktop = () => {
   };
 
   const Window = ({ window }) => (
-    <div
-      className={`absolute bg-gray-200 border-2 border-gray-400 shadow-lg ${
-        window.minimized ? 'hidden' : ''
-      }`}
-      style={{
-        left: `${window.x}px`,
-        top: `${window.y}px`,
-        width: `${window.width}px`,
-        height: `${window.height}px`,
-        zIndex: 10,
-      }}
-    >
-      {/* Window Title Bar */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 flex justify-between items-center text-sm font-semibold">
-        <span>{window.title}</span>
-        <div className="flex space-x-1">
-          <button 
-            onClick={() => minimizeWindow(window.id)}
-            className="w-4 h-4 bg-gray-300 border border-gray-400 flex items-center justify-center text-xs hover:bg-gray-400"
-          >
-            _
-          </button>
-          <button 
-            onClick={() => closeWindow(window.id)}
-            className="w-4 h-4 bg-red-500 border border-gray-400 flex items-center justify-center text-xs hover:bg-red-600 text-white"
-          >
-            ×
-          </button>
-        </div>
-      </div>
-      
-      {/* Window Content */}
-      <div className="p-4 bg-white h-full">
-        <div className="text-center text-gray-600 mt-20">
-          <div className="text-4xl mb-4">
-            {window.title === 'My Computer' ? '💻' : 
-             window.title === 'Recycle Bin' ? '🗑️' :
-             window.title === 'My Documents' ? '📁' :
-             window.title === 'Internet Explorer' ? '🌐' : '📝'}
-          </div>
-          <p>This is a replica of {window.title}</p>
-          <p className="text-sm mt-2">Windows XP Desktop Experience</p>
-        </div>
+  <Rnd
+    default={{
+      x: window.x,
+      y: window.y,
+      width: window.width,
+      height: window.height,
+    }}
+    minWidth={300}
+    minHeight={200}
+    bounds="parent"
+    style={{ zIndex: 10 }}
+    className={`bg-gray-200 border-2 border-gray-400 shadow-lg ${
+      window.minimized ? 'hidden' : ''
+    }`}
+  >
+    {/* Window Title Bar */}
+    <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 flex justify-between items-center text-sm font-semibold cursor-move">
+      <span>{window.title}</span>
+      <div className="flex space-x-1">
+        <button 
+          onClick={() => minimizeWindow(window.id)}
+          className="w-4 h-4 bg-gray-300 border border-gray-400 flex items-center justify-center text-xs hover:bg-gray-400"
+        >
+          _
+        </button>
+        <button 
+          onClick={() => closeWindow(window.id)}
+          className="w-4 h-4 bg-red-500 border border-gray-400 flex items-center justify-center text-xs hover:bg-red-600 text-white"
+        >
+          ×
+        </button>
       </div>
     </div>
-  );
+
+    {/* Window Content */}
+    <div className="p-4 bg-white h-full overflow-auto">
+      <div className="text-center text-gray-600 mt-20">
+        <div className="text-4xl mb-4">
+          {window.title === 'My Computer' ? '💻' : 
+           window.title === 'Recycle Bin' ? '🗑️' :
+           window.title === 'My Documents' ? '📁' :
+           window.title === 'Internet Explorer' ? '🌐' : '📝'}
+        </div>
+        <p>This is a replica of {window.title}</p>
+        <p className="text-sm mt-2">Windows XP Desktop Experience</p>
+      </div>
+    </div>
+  </Rnd>
+);
 
   return (
     <div className="relative w-full h-screen overflow-hidden" 
