@@ -1,46 +1,8 @@
-import React, { useState } from 'react';
-import {Rnd} from 'react-rnd';
+import React, { useState, memo } from 'react';
+import { Rnd } from 'react-rnd';
 
-const WindowsXPDesktop = () => {
-  const [openWindows, setOpenWindows] = useState([]);
-  const [startMenuOpen, setStartMenuOpen] = useState(false);
-
-  const desktopIcons = [
-    { id: 1, name: 'My Computer', icon: '💻' },
-    { id: 2, name: 'Recycle Bin', icon: '🗑️' },
-    { id: 3, name: 'My Documents', icon: '📁' },
-    { id: 4, name: 'Internet Explorer', icon: '🌐' },
-    { id: 5, name: 'Notepad', icon: '📝' },
-  ];
-
-  
-
-  const openWindow = (iconName) => {
-    if (!openWindows.find(w => w.title === iconName)) {
-      const newWindow = {
-        id: Date.now(),
-        title: iconName,
-        x: Math.random() * 200 + 50,
-        y: Math.random() * 100 + 50,
-        width: 500,
-        height: 400,
-        minimized: false,
-      };
-      setOpenWindows([...openWindows, newWindow]);
-    }
-  };
-
-  const closeWindow = (id) => {
-    setOpenWindows(openWindows.filter(w => w.id !== id));
-  };
-
-  const minimizeWindow = (id) => {
-    setOpenWindows(openWindows.map(w => 
-      w.id === id ? { ...w, minimized: !w.minimized } : w
-    ));
-  };
-
-  const Window = ({ window }) => (
+// separated and memoized window from main window componnent to prevent re-render everytime we type in notpad 
+const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent }) => (
   <Rnd
     default={{
       x: window.x,
@@ -56,7 +18,7 @@ const WindowsXPDesktop = () => {
       window.minimized ? 'hidden' : ''
     }`}
   >
-    {/* Window Title Bar */}
+    {/* Title Bar */}
     <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 flex justify-between items-center text-sm font-semibold cursor-move">
       <span>{window.title}</span>
       <div className="flex space-x-1">
@@ -75,21 +37,92 @@ const WindowsXPDesktop = () => {
       </div>
     </div>
 
-    {/* Window Content */}
-    <div className="p-4 bg-white h-full overflow-auto">
-      <div className="text-center text-gray-600 mt-20">
-        <div className="text-4xl mb-4">
-          {window.title === 'My Computer' ? '💻' : 
-           window.title === 'Recycle Bin' ? '🗑️' :
-           window.title === 'My Documents' ? '📁' :
-           window.title === 'Internet Explorer' ? '🌐' : '📝'}
+    {/* Content */}
+    <div className="p-2 bg-white h-full overflow-auto">
+      {window.title === 'Notepad' ? (
+        <textarea
+          autoFocus
+          value={window.content || ''}
+          onChange={(e) => updateWindowContent(window.id, e.target.value)}
+          className="w-full h-full resize-none bg-white text-black p-2 text-sm border border-gray-300 outline-none font-mono"
+          placeholder="Start typing..."
+        />
+      ) : (
+        <div className="text-center text-gray-600 mt-20">
+          <div className="text-4xl mb-4">
+            {window.title === 'My Computer' ? '💻' : 
+            window.title === 'Recycle Bin' ? '🗑️' :
+            window.title === 'My Documents' ? '📁' :
+            window.title === 'Internet Explorer' ? '🌐' : '📝'}
+          </div>
+          <p>This is a replica of {window.title}</p>
+          <p className="text-sm mt-2">Windows XP Desktop Experience</p>
         </div>
-        <p>This is a replica of {window.title}</p>
-        <p className="text-sm mt-2">Windows XP Desktop Experience</p>
-      </div>
+      )}
     </div>
   </Rnd>
-);
+));
+
+const WindowsXPDesktop = () => {
+  const [openWindows, setOpenWindows] = useState([]);
+  const [startMenuOpen, setStartMenuOpen] = useState(false);
+
+  const desktopIcons = [
+    { id: 1, name: 'My Computer', icon: '💻' },
+    { id: 2, name: 'Recycle Bin', icon: '🗑️' },
+    { id: 3, name: 'My Documents', icon: '📁' },
+    { id: 4, name: 'Internet Explorer', icon: '🌐' },
+    { id: 5, name: 'Notepad', icon: '📝' },
+  ];
+
+  const startMenuItems = [
+    { name: 'My Documents', icon: '📁' },
+    { name: 'My Pictures', icon: '🖼️' },
+    { name: 'My Music', icon: '🎵' },
+    { name: 'My Computer', icon: '💻' },
+    { name: 'Control Panel', icon: '⚙️' },
+    { name: 'Run...', icon: '▶️' },
+  ];
+
+  const openWindow = (iconName) => {
+    if (!openWindows.find(w => w.title === iconName)) {
+      const newWindow = {
+        id: Date.now(),
+        title: iconName,
+        x: Math.random() * 200 + 50,
+        y: Math.random() * 100 + 50,
+        width: 500,
+        height: 400,
+        minimized: false,
+        content: iconName === 'Notepad' ? localStorage.getItem('notepadContent') || '' : '',
+      };
+      setOpenWindows([...openWindows, newWindow]);
+    }
+  };
+
+  const closeWindow = (id) => {
+    setOpenWindows(openWindows.filter(w => w.id !== id));
+  };
+
+  const minimizeWindow = (id) => {
+    setOpenWindows(openWindows.map(w => 
+      w.id === id ? { ...w, minimized: !w.minimized } : w
+    ));
+  };
+
+  const updateWindowContent = (id, newContent) => {
+    setOpenWindows(windows =>
+      windows.map(w => {
+        if (w.id === id) {
+          if (w.title === 'Notepad') {
+            localStorage.setItem('notepadContent', newContent);
+          }
+          return { ...w, content: newContent };
+        }
+        return w;
+      })
+    );
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden" 
@@ -118,7 +151,13 @@ const WindowsXPDesktop = () => {
 
       {/* Windows */}
       {openWindows.map((window) => (
-        <Window key={window.id} window={window} />
+        <Window
+          key={window.id}
+          window={window}
+          minimizeWindow={minimizeWindow}
+          closeWindow={closeWindow}
+          updateWindowContent={updateWindowContent}
+        />
       ))}
 
       {/* Start Menu */}
