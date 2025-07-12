@@ -37,9 +37,17 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
       </div>
     </div>
 
-    {/* Content */}
+    {/* Window Content */}
     <div className="p-2 bg-white h-full overflow-auto">
-      {window.title === 'Notepad' ? (
+
+      {/* internet explorer */}
+      {window.title === 'Internet Explorer' ? (
+        <iframe
+          src="https://archive.org"
+          title="Embedded Web App"
+          className="w-full h-full border-none"
+        />
+      ) : window.title === 'Notepad' ? (
         <textarea
           autoFocus
           value={window.content || ''}
@@ -52,8 +60,7 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
           <div className="text-4xl mb-4">
             {window.title === 'My Computer' ? '💻' : 
             window.title === 'Recycle Bin' ? '🗑️' :
-            window.title === 'My Documents' ? '📁' :
-            window.title === 'Internet Explorer' ? '🌐' : '📝'}
+            window.title === 'My Documents' ? '📁' : '📝'}
           </div>
           <p>This is a replica of {window.title}</p>
           <p className="text-sm mt-2">Windows XP Desktop Experience</p>
@@ -71,7 +78,7 @@ const WindowsXPDesktop = () => {
     { id: 1, name: 'My Computer', icon: '💻' },
     { id: 2, name: 'Recycle Bin', icon: '🗑️' },
     { id: 3, name: 'My Documents', icon: '📁' },
-    { id: 4, name: 'Internet Explorer', icon: '🌐' },
+    { id: 4, name: 'Internet Explorer', icon: '🌐' }, 
     { id: 5, name: 'Notepad', icon: '📝' },
   ];
 
@@ -85,20 +92,21 @@ const WindowsXPDesktop = () => {
   ];
 
   const openWindow = (iconName) => {
-    if (!openWindows.find(w => w.title === iconName)) {
-      const newWindow = {
-        id: Date.now(),
-        title: iconName,
-        x: Math.random() * 200 + 50,
-        y: Math.random() * 100 + 50,
-        width: 500,
-        height: 400,
-        minimized: false,
-        content: iconName === 'Notepad' ? localStorage.getItem('notepadContent') || '' : '',
-      };
-      setOpenWindows([...openWindows, newWindow]);
-    }
-  };
+  if (!openWindows.find(w => w.title === iconName)) {
+    const newWindow = {
+      id: Date.now(),
+      title: iconName,
+      x: Math.random() * 200 + 50,
+      y: Math.random() * 100 + 50,
+      width: 500,
+      height: 400,
+      minimized: false,
+      content: iconName === 'Notepad' ? localStorage.getItem('notepadContent') || '' : 
+               iconName === 'Internet Explorer' ? 'https://www.google.com' : '',
+    };
+    setOpenWindows([...openWindows, newWindow]);
+  }
+};
 
   const closeWindow = (id) => {
     setOpenWindows(openWindows.filter(w => w.id !== id));
@@ -133,6 +141,7 @@ const WindowsXPDesktop = () => {
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed'
       }}>
+      
       {/* Desktop Icons */}
       <div className="absolute top-4 left-4 space-y-4">
         {desktopIcons.map((icon) => (
@@ -149,7 +158,7 @@ const WindowsXPDesktop = () => {
         ))}
       </div>
 
-      {/* Windows */}
+      {/* Active Windows */}
       {openWindows.map((window) => (
         <Window
           key={window.id}
@@ -200,7 +209,6 @@ const WindowsXPDesktop = () => {
 
       {/* Taskbar */}
       <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-r from-blue-500 to-blue-600 border-t-2 border-blue-700 flex items-center px-2">
-        {/* Start Button */}
         <button
           onClick={() => setStartMenuOpen(!startMenuOpen)}
           className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-1 rounded-sm border border-green-700 hover:from-green-400 hover:to-green-500 text-sm font-bold flex items-center space-x-2"
@@ -219,7 +227,7 @@ const WindowsXPDesktop = () => {
           </div>
         </div>
 
-        {/* Taskbar Buttons */}
+        {/* Open Window Buttons */}
         <div className="flex-1 flex items-center space-x-1 px-2">
           {openWindows.filter(w => !w.minimized).map((window) => (
             <button
@@ -234,12 +242,8 @@ const WindowsXPDesktop = () => {
 
         {/* System Tray */}
         <div className="flex items-center space-x-2 px-2 border-l border-blue-700">
-          <div className="text-white text-xs cursor-pointer hover:bg-blue-400 px-1 rounded">
-            🔊
-          </div>
-          <div className="text-white text-xs cursor-pointer hover:bg-blue-400 px-1 rounded">
-            📶
-          </div>
+          <div className="text-white text-xs cursor-pointer hover:bg-blue-400 px-1 rounded">🔊</div>
+          <div className="text-white text-xs cursor-pointer hover:bg-blue-400 px-1 rounded">📶</div>
           <div className="text-white text-xs font-semibold">
             {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
