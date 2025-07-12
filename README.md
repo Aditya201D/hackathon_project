@@ -1,6 +1,6 @@
 # Windows XP Web Revival
 
-A nostalgic, web-based recreation of the classic **Windows XP desktop environment** — but with a twist. Built with **React**, this desktop simulator brings back the charm of early 2000s computing and blends it with modern features like embedded apps and more.
+A nostalgic, web-based recreation of the classic **Windows XP desktop environment** — but with a twist. Built with **React**, this desktop simulator brings back the charm of early 2000s computing and blends it with modern features like embedded apps, AI assistant and more.
 
 > Hackathon Theme: "Blast from the Past"
 
@@ -14,18 +14,17 @@ Faithful Windows XP UI:
 
 Functional Apps:  
 • 📁 My Computer  
-• 🌐 Internet Explorer (loads external websites or embedded tools)  
+• 🌐 Internet Explorer (loads external website, archive.org to be exact:)  
 • 📝 Notepad (fully editable, localStorage persistence)  
 • 🗑️ Recycle Bin (mock)  
+• 📁 My Documents (check out for a laugh)
+• 🤖 AI Assistant (Your local storage friend)
 
 Interactive UX:  
 • Open/minimize/close windows  
 • Resizable and draggable apps  
 • Taskbar buttons mimic XP multitasking
 
-Upcoming Features:
-
----
 
 # Test Preview:
 
@@ -70,9 +69,6 @@ npm run dev
 + TailwindCSS v4
 + HTML5
 + react-rnd
-
-### License:
-
 
 ### Author(s):
 
