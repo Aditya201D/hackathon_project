@@ -101,29 +101,6 @@ const SynthAssistant = () => {
 
   const getSynthResponse = async (msg) => {
     try {
-      // Example using Hugging Face API (free)
-      // Uncomment and add your token to use real AI
-      /*
-      const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer YOUR_HF_TOKEN_HERE',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          inputs: msg,
-          parameters: {
-            max_new_tokens: 100,
-            temperature: 0.7,
-          }
-        })
-      });
-      
-      const data = await response.json();
-      return data[0]?.generated_text || "SYNTH-AI processing... try again in a moment 🤖";
-      */
-      
-      // Fallback responses (current implementation)
       if (msg.includes("name")) return "I'm SYNTH-AI, your cyberpunk companion from 2085!";
       if (msg.includes("hello") || msg.includes("hi")) return "Greetings, cyber-citizen! Ready to surf the neon highways?";
       if (msg.includes("joke")) return "Why did the hacker break up with the internet? Too many trust issues! 😎";
@@ -196,8 +173,14 @@ const SynthAssistant = () => {
 const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
+  const [booting, setBooting] = useState(true);
   
   // Audio setup
+  React.useEffect(() => {
+    setBooting(true);
+    const timer = setTimeout(() => setBooting(false), 2500); // 2.5s boot
+    return () => clearTimeout(timer);
+  }, []);
   React.useEffect(() => {
     const backgroundAudio = new Audio('src/assets/Timecop1983 - On the Run.mp3');
     backgroundAudio.loop = true;
@@ -318,7 +301,50 @@ const SynthwaveDesktop = () => {
           background-size: 20px 20px;
           animation: grid-move 2s ease-in-out infinite;
         }
+        
+        .animate-pulse {
+          animation: neon-glow 2s ease-in-out infinite;
+        }
+          @keyframes flicker {
+          0% { opacity: 0.1; }
+          5% { opacity: 0.5; }
+          10% { opacity: 0.1; }
+          15% { opacity: 0.7; }
+          20% { opacity: 0.2; }
+          25% { opacity: 1; }
+          30% { opacity: 0.3; }
+          35% { opacity: 0.9; }
+          40% { opacity: 0.2; }
+          45% { opacity: 1; }
+          50% { opacity: 0.7; }
+          55% { opacity: 0.3; }
+          60% { opacity: 1; }
+          100% { opacity: 1; }
+        }
+        .bootup-overlay {
+          position: fixed;
+          z-index: 9999;
+          inset: 0;
+          background: linear-gradient(135deg, #1a002a 0%, #0f172a 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: opacity 0.5s;
+        }
+        .bootup-text {
+          font-family: 'Orbitron', 'monospace', 'sans-serif';
+          font-size: 3rem;
+          color: #a78bfa;
+          text-shadow: 0 0 10px #f0abfc, 0 0 30px #67e8f9;
+          letter-spacing: 0.2em;
+          animation: flicker 2s linear forwards;
+        }
       `}</style>
+      {booting && (
+  <div className="bootup-overlay">
+    <span className="bootup-text">Synthwave OS</span>
+  </div>
+)}
       
       <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-cyan-900">
         {/* Animated Grid Background */}
