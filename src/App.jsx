@@ -60,8 +60,8 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent,
           <div className="text-purple-400 mb-4 animate-pulse">🔒 DECRYPTING...</div>
           <iframe
             className="w-full h-full rounded-lg border border-purple-500"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0"
-            title="Rickroll"
+            src="https://www.youtube.com/embed/VQ7lKPSUc2g?autoplay=1&controls=0"
+            title="Wide Putin"
             allow="autoplay"
             allowFullScreen
           ></iframe>
@@ -88,6 +88,8 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent,
             setHyperdrive={setHyperdrive}
             uptimeStart={uptimeStart}
           />
+        ) : window.title === 'Trash Matrix' ? (
+          <TrashMatrixWindow />
         ) : (
         <div className="text-center text-cyan-300 mt-20">
           <div className="text-4xl mb-4 animate-pulse">
@@ -274,7 +276,11 @@ const NeuralCoreWindow = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 rounded-lg p-6">
-      <div className="text-3xl font-mono text-cyan-300 mb-4 animate-pulse">Neural Link Initializing...</div>
+      <div className="text-3xl font-mono text-cyan-300 mb-4" style={{
+        textShadow: "0 0 8px #67e8f9, 0 0 2px #fff"
+      }}>
+        Neural Link Initializing...
+      </div>
       <div className="w-full bg-gray-800 rounded-full h-6 mb-4 border-2 border-purple-500 shadow-inner">
         <div
           className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 h-6 rounded-full transition-all duration-200"
@@ -402,6 +408,82 @@ const ControlMatrixWindow = ({
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const TrashMatrixWindow = () => {
+  const [files, setFiles] = React.useState([
+    "old_resume.docx",
+    "cat_meme.png",
+    "virus.exe",
+    "rickroll.mp3",
+    "notes.txt",
+    "secret_plan.pdf"
+  ]);
+  const [purged, setPurged] = React.useState(false);
+  const [restored, setRestored] = React.useState(false);
+
+  const handlePurge = () => {
+    setPurged(true);
+    setTimeout(() => setFiles([]), 600);
+  };
+
+  const handleRestore = () => {
+    setRestored(true);
+    setTimeout(() => {
+      setFiles([
+        "old_resume.docx",
+        "cat_meme.png",
+        "virus.exe",
+        "rickroll.mp3",
+        "notes.txt",
+        "secret_plan.pdf"
+      ]);
+      setRestored(false);
+      setPurged(false);
+    }, 800);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full p-6 bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 rounded-lg font-mono text-cyan-200">
+      <div className="text-2xl text-pink-400 mb-4 font-mono" style={{
+        textShadow: "0 0 8px #f472b6, 0 0 2px #fff"
+      }}>
+        Trash Matrix
+      </div>
+      <div className={`w-full max-w-xs bg-gray-800 rounded-lg p-4 border-2 border-purple-500 shadow-inner mb-4 transition-all duration-500 ${purged ? "animate-pulse opacity-30 blur-sm" : ""}`}>
+        {files.length === 0 ? (
+          <div className="text-center text-purple-400">🗑️ Trash is empty!</div>
+        ) : (
+          <ul className="space-y-2">
+            {files.map((file, i) => (
+              <li key={i} className="flex items-center justify-between">
+                <span className="truncate">{file}</span>
+                <span className="text-pink-400">✖</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className="flex space-x-4">
+        <button
+          className="px-4 py-1 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded font-mono hover:from-pink-500 hover:to-purple-500 transition-all shadow-lg"
+          onClick={handlePurge}
+          disabled={files.length === 0 || purged}
+        >
+          PURGE ALL
+        </button>
+        <button
+          className="px-4 py-1 bg-gradient-to-r from-cyan-600 to-purple-600 text-white rounded font-mono hover:from-cyan-500 hover:to-purple-500 transition-all shadow-lg"
+          onClick={handleRestore}
+          disabled={restored || (!purged && files.length > 0)}
+        >
+          RESTORE
+        </button>
+      </div>
+      {purged && <div className="mt-4 text-pink-400 animate-pulse">Purging files... 💥</div>}
+      {restored && <div className="mt-4 text-cyan-400 animate-pulse">Restoring files... 🛠️</div>}
     </div>
   );
 };
