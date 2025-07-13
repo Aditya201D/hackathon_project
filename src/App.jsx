@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react';
 import { Rnd } from 'react-rnd';
 
 // Separated and memoized window component
-const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent }) => (
+const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent, openWindow }) => (
   <Rnd
     default={{
       x: window.x,
@@ -76,6 +76,8 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
         updateWindowContent={updateWindowContent}
         />) : window.title === 'Neural Core' ? (
           <NeuralCoreWindow />
+        ) : window.title == 'Execute...' ? (
+        <ExecuteWindow openWindow={openWindow} closeWindow={closeWindow} window={window}/>
         ) : (
         <div className="text-center text-cyan-300 mt-20">
           <div className="text-4xl mb-4 animate-pulse">
@@ -103,7 +105,7 @@ const SynthAssistant = () => {
   // Define playClickSound within this component
   const playClickSound = () => {
     const clickSound = new Audio('/assets/click_sound.wav');
-    clickSound.volume = 0.2;
+    clickSound.volume = 0.05;
     clickSound.play().catch(e => console.log('Click sound failed:', e));
   };
 
@@ -279,12 +281,64 @@ const NeuralCoreWindow = () => {
   );
 };
 
+const ExecuteWindow = ({ openWindow, closeWindow, window }) => {
+  const [input, setInput] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  const handleRun = () => {
+  const cmd = input.trim().toLowerCase();
+  setError("");
+  // Recognized commands (add more as needed)
+  const validPrograms = [
+    "terminal", "neotext", "cybernet explorer", "data vault",
+    "synth assistant", "trash matrix", "neural core"
+  ];
+  if (validPrograms.includes(cmd)) {
+    openWindow(
+      cmd
+        .split(' ')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ')
+    );
+  } else {
+    setError(`Unknown program: ${input}. Please enter one of the recognized programs (terminal, neotext, cybernet explorer, data vault, synth assistant, trash matrix, neural core).`);
+  }
+  setInput("");
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full p-6 bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 rounded-lg">
+      <div className="text-xl font-mono text-cyan-300 mb-4">Run a Program</div>
+      <input
+        className="w-full mb-2 px-3 py-2 rounded bg-gray-800 border-2 border-purple-500 text-cyan-200 font-mono focus:outline-none focus:border-cyan-400"
+        placeholder="Type a program name (e.g. terminal) and press Enter..."
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={e => e.key === "Enter" && handleRun()}
+        autoFocus
+      />
+      <button
+        className="px-4 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded font-mono hover:from-purple-500 hover:to-pink-500 transition-all"
+        onClick={handleRun}
+      >
+        RUN
+      </button>
+      {error && <div className="mt-2 text-pink-400 font-mono">{error}</div>}
+      <div className="mt-4 text-xs text-purple-300 font-mono opacity-70">Try: terminal, neotext, cybernet explorer, data vault, synth assistant, trash matrix, neural core</div>
+    </div>
+  );
+};
+
 const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [booting, setBooting] = useState(true);
   const [currentSong, setCurrentSong] = useState('/assets/Timecop1983 - On the Run.mp3');
   const [audioObj, setAudioObj] = useState(null);
+  const [musicVolume, setMusicVolume] = useState(0.15);
+  const [neonGrid, setNeonGrid] = useState(true);
+  const [hyperdrive, setHyperdrive] = useState(false);
+  const [uptimeStart] = useState(Date.now());
   
   // Audio setup
   React.useEffect(() => {
@@ -300,7 +354,7 @@ const SynthwaveDesktop = () => {
   }
   const newAudio = new Audio(currentSong);
   newAudio.loop = true;
-  newAudio.volume = 0.20;
+  newAudio.volume = 0.15;
   setAudioObj(newAudio);
 
   // Play after user interaction
@@ -313,12 +367,12 @@ const SynthwaveDesktop = () => {
     newAudio.pause();
     document.removeEventListener('click', playAudio);
   };
-}, [currentSong]);
+}, [currentSong, audioObj, musicVolume]);
   
   // Click sound function
   const playClickSound = () => {
     const clickSound = new Audio('/assets/click_sound.wav');
-    clickSound.volume = 0.3;
+    clickSound.volume = 0.15;
     clickSound.play().catch(e => console.log('Click sound failed:', e));
   };
 
@@ -535,6 +589,7 @@ const SynthwaveDesktop = () => {
             minimizeWindow={minimizeWindow}
             closeWindow={closeWindow}
             updateWindowContent={updateWindowContent}
+            openWindow={openWindow}
           />
         ))}
 
