@@ -104,16 +104,16 @@ SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast 
 
 ## 📸 Screenshots
 
-> ![Boot-up animation](image.png)
+> ![Boot-up animation](public/assets/image.png)
 > Boot-up animation
 
->![alt text](image-1.png)
+>![Desktop](public/assets/image-1.png)
 >Desktop
 
->![alt text](image-2.png)
+>![Desktop Apps](public/assets/image-2.png)
 >Desktop apps opened up
 
->![alt text](image-3.png)
+>![Start-up Menu](public/assets/image-3.png)
 >Start-up menu
 ---
 
