@@ -498,6 +498,7 @@ const SynthwaveDesktop = () => {
   const [neonGrid, setNeonGrid] = useState(true);
   const [hyperdrive, setHyperdrive] = useState(false);
   const [uptimeStart] = useState(Date.now());
+  const [shuttingDown, setShuttingDown] = React.useState(false);
   
   // Audio setup
   React.useEffect(() => {
@@ -505,6 +506,16 @@ const SynthwaveDesktop = () => {
     const timer = setTimeout(() => setBooting(false), 2500); // 2.5s boot
     return () => clearTimeout(timer);
   }, []);
+
+  const handleShutdown = () => {
+  setShuttingDown(true);
+  setTimeout(() => {
+    window.open('', '_self', '');
+    window.close();
+    // As a fallback, redirect to a blank page if close fails
+    window.location.href = 'about:blank';
+  }, 2200); // Duration matches the animation
+  };
   
   // Background music
   // Create and play new audio when the song changes
@@ -703,11 +714,25 @@ React.useEffect(() => {
           animation: flicker-minimal 2.5s infinite;
         }
       `}</style>
+      
       {booting && (
-  <div className="bootup-overlay">
-    <span className="bootup-text">Synthwave OS</span>
-  </div>
-)}
+        <div className="bootup-overlay">
+          <span className="bootup-text">Synthwave OS</span>
+        </div>
+      )}
+
+      {shuttingDown && (
+        <div className="bootup-overlay" style={{background: "linear-gradient(135deg, #0f172a 0%, #1a002a 100%)"}}>
+          <span className="bootup-text" style={{
+            color: "#67e8f9",
+      textShadow: "0 0 20px #f472b6, 0 0 40px #67e8f9"
+          }}>
+            <span style={{animation: "flicker 2s linear forwards"}}>Shutting Down...</span>
+            <br />
+            <span style={{fontSize: "1.5rem", opacity: 0.7, animation: "flicker-minimal 2s infinite"}}>Logging off CYBER-USER</span>
+          </span>
+        </div>
+      )}
       
       <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-purple-900 via-gray-900 to-cyan-900">
         {/* Animated Grid Background */}
@@ -847,8 +872,12 @@ React.useEffect(() => {
             </div>
             <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-2">
               <div className="flex justify-between">
-                <button className="text-cyan-200 text-sm hover:text-white transition-colors font-mono">LOGOUT</button>
-                <button className="text-cyan-200 text-sm hover:text-white transition-colors font-mono">SHUTDOWN</button>
+                <button
+                  className="text-cyan-200 text-sm hover:text-white transition-colors font-mono"
+                  onClick={handleShutdown}
+                >
+                  SHUTDOWN
+                </button>
               </div>
             </div>
           </div>
