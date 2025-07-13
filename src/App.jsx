@@ -74,7 +74,9 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent 
         closeWindow={closeWindow}
         minimizeWindow={minimizeWindow}
         updateWindowContent={updateWindowContent}
-        />) : (
+        />) : window.title === 'Neural Core' ? (
+          <NeuralCoreWindow />
+        ) : (
         <div className="text-center text-cyan-300 mt-20">
           <div className="text-4xl mb-4 animate-pulse">
             {window.title === 'Neural Core' ? '🧠' : 
@@ -240,6 +242,38 @@ const SynthAssistant = () => {
           onKeyDown={handleKeyDown}
           autoFocus
         />
+      </div>
+    </div>
+  );
+};
+
+const NeuralCoreWindow = () => {
+  const [progress, setProgress] = React.useState(0);
+  const [connected, setConnected] = React.useState(false);
+
+  React.useEffect(() => {
+    if (progress < 100) {
+      const timer = setTimeout(() => setProgress(progress + 2 + Math.floor(Math.random() * 4)), 80);
+      return () => clearTimeout(timer);
+    } else {
+      setConnected(true);
+    }
+  }, [progress]);
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full w-full bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 rounded-lg p-6">
+      <div className="text-3xl font-mono text-cyan-300 mb-4 animate-pulse">Neural Link Initializing...</div>
+      <div className="w-full bg-gray-800 rounded-full h-6 mb-4 border-2 border-purple-500 shadow-inner">
+        <div
+          className="bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 h-6 rounded-full transition-all duration-200"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+      <div className="text-lg font-mono text-purple-300 mb-2 tracking-widest">
+        {progress < 100 ? `${progress}%` : "100%"}
+      </div>
+      <div className="text-cyan-400 font-mono mt-4 animate-pulse">
+        {connected ? "NEURAL CORE ONLINE. CONNECTION ESTABLISHED." : "CONNECTING..."}
       </div>
     </div>
   );
