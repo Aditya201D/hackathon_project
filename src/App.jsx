@@ -101,7 +101,7 @@ const SynthAssistant = () => {
   // Define playClickSound within this component
   const playClickSound = () => {
     const clickSound = new Audio('src/assets/click_sound.wav');
-    clickSound.volume = 0.3;
+    clickSound.volume = 0.2;
     clickSound.play().catch(e => console.log('Click sound failed:', e));
   };
 
@@ -266,7 +266,7 @@ const SynthwaveDesktop = () => {
   }
   const newAudio = new Audio(currentSong);
   newAudio.loop = true;
-  newAudio.volume = 0.55;
+  newAudio.volume = 0.20;
   setAudioObj(newAudio);
 
   // Play after user interaction
