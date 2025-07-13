@@ -317,6 +317,12 @@ const SynthwaveDesktop = () => {
   { name: "Tomorrow Will Be Rain", file: "src/assets/Tomorrow_Will_Be_Rain.mp3" },
   ];
 
+  const holoGalleryImages = [
+  { name: "Nyan Cat", src: "src/assets/nyan_cat.png" },
+  { name: "Peter's Computer", src: "src/assets/peter's_computer.jpg" },
+  { name: "Trollface", src: "src/assets/Trollface.png" },
+  ];
+
   const openWindow = (iconName) => {
     playClickSound();
     
@@ -539,7 +545,27 @@ const SynthwaveDesktop = () => {
                         ))}
                       </div>
                     </div>
-                  ) : (
+                  ) : item.name === 'Holo Gallery' ? (
+                    <div key={index} className="px-4 py-2">
+                      <div className="flex items-center space-x-3 text-cyan-300 font-mono mb-1">
+                        <span className="text-lg">{item.icon}</span>
+                        <span className="text-sm">Holo Gallery</span>
+                      </div>
+                      <div className="ml-7 grid grid-cols-3 gap-2">
+                        {holoGalleryImages.map((img, i) => (
+                          <div key={img.src} className="flex flex-col items-center">
+                            <img
+                              src={img.src}
+                              alt={img.name}
+                              className="w-16 h-16 object-contain rounded-lg border-2 border-purple-500 shadow-lg bg-gray-800"
+                              style={{ background: "#222", marginBottom: "0.25rem" }}
+                            />
+                            <span className="text-xs text-purple-300 font-mono text-center">{img.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) :  (
                     <div
                       key={index}
                       className="flex items-center space-x-3 px-4 py-2 hover:bg-purple-600 hover:bg-opacity-30 cursor-pointer text-cyan-300 transition-all duration-200 hover:shadow-lg hover:shadow-purple-400/30"
