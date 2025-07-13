@@ -1,77 +1,120 @@
-# Windows XP Web Revival
+# SynthwaveOS
 
-A nostalgic, web-based recreation of the classic **Windows XP desktop environment** — but with a twist. Built with **React**, this desktop simulator brings back the charm of early 2000s computing and blends it with modern features like embedded apps, AI assistant and more.
+A futuristic, web-based desktop environment that fuses the nostalgia of classic Windows XP with the neon-drenched aesthetics of synthwave and cyberpunk. SynthwaveOS is a playful, interactive homage to the past, reimagined with modern web technologies and creative features.
 
-> Hackathon Theme: "Blast from the Past"
+> **Hackathon Theme:** Blast from the Past
 
 ---
 
-## Features
+## 🚀 What is SynthwaveOS?
 
-Faithful Windows XP UI:  
-• Start menu, taskbar, system tray, desktop icons, window styling  
-• Simulated desktop environment with working app windows  
+SynthwaveOS is a browser-based "operating system" that brings together the familiar feel of Windows XP and the retro-futuristic vibes of synthwave. It features interactive desktop icons, a dynamic start menu, draggable/resizable windows, a built-in terminal, music player, meme gallery, and more—all wrapped in glowing neon grids and animated backgrounds.
 
-Functional Apps:  
-• 📁 My Computer  
-• 🌐 Internet Explorer (loads external website, archive.org to be exact:)  
-• 📝 Notepad (fully editable, localStorage persistence)  
-• 🗑️ Recycle Bin (mock)  
-• 📁 My Documents (check out for a laugh)
-• 🤖 AI Assistant (Your local storage friend)
+---
 
-Interactive UX:  
-• Open/minimize/close windows  
-• Resizable and draggable apps  
-• Taskbar buttons mimic XP multitasking
+## ✨ Features
 
+- **Nostalgic Desktop UI:**  
+  - Desktop icons, taskbar, start menu, windowed apps  
+  - Draggable, resizable, and minimizable windows  
+  - Synthwave-inspired neon grid and animated background
 
-# Test Preview:
+- **Functional Apps:**  
+  - **Neural Core:** Futuristic loading/progress simulation  
+  - **Trash Matrix:** Animated trash bin with purge/restore  
+  - **Data Vault:** Embedded "Wide Putin" meme video  
+  - **CyberNet Explorer:** Embedded web browser (archive.org)  
+  - **NeoText:** Minimal notepad  
+  - **Synth Assistant:** AI chatbot with retro responses  
+  - **Terminal:** Basic command-line interface  
+  - **Holo Gallery:** Meme image gallery  
+  - **Synth Beats:** Built-in synthwave music player  
+  - **Control Matrix:** System toggles, volume, and fake stats  
+  - **Execute...:** Run dialog to launch apps by name
 
-> Check out the deployment link:
+- **Synthwave Experience:**  
+  - Neon gradients, animated orbs, flickering text, and subtle grid  
+  - Subtle watermark and boot animation  
+  - Sound effects for clicks and actions
 
+---
 
+## 🕹️ How does it fit the theme? (Blast from the Past)
 
-## Installation
+SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast from the past"—but with a twist: everything is wrapped in synthwave/cyberpunk style. It combines the comfort of a classic OS with the energy and color of retro-futurism, blending nostalgia and modern web tech for a unique, playful experience.
 
-### 1. Clone the Repository
+---
 
-```bash
-git clone https://github.com/Aditya201D/hackathon_project.git
-cd hackathon_project
-```
+## 🛠️ Tech Stack
 
-### 2. Install dependencies
-```bash
-npm install
-```
+- **React** (Vite)
+- **TailwindCSS**
+- **react-rnd** (for draggable/resizable windows)
+- **HTML5/CSS3**
+- **Google Fonts (Orbitron, Share Tech Mono)**
 
-### 3. Run the Development Server
-```bash
-npm run dev
-```
+---
 
->Your XP desktop will be available at http://localhost:5173 (or whatever Vite assigns).
+## 💻 Installation & Usage
 
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/Aditya201D/hackathon_project.git
+    cd hackathon_project
+    ```
 
-### Testing
-**Manual testing:**
-+ Double-click desktop icons
-+ Interact with the Start Menu
-+ Type inside Notepad, then refreshing the browser
-+ Open Internet Explorer and test iframe
+2. **Install Dependencies**
+    ```bash
+    npm install
+    ```
 
-> Please be online to test iframe in browser
+3. **Run the Development Server**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-### Built With:
+---
 
-+ JavaScript (React)
-+ TailwindCSS v4
-+ HTML5
-+ react-rnd
+## 🌐 Deployment
 
-### Author(s):
+> [Live Demo Coming Soon!](#)
 
-1. Aditya Thakur (Aditya201D)
-2. Harshit Tyagi
-3. Kapil Kant
+---
+
+## 👨‍💻 Authors
+
+- Aditya Thakur (Aditya201D)
+- Harshit Tyagi
+- Kapil Kant
+
+---
+
+## 📝 How to Use
+
+- **Double-click** desktop icons to open apps
+- **Use the Start Menu** for more apps and features
+- **Try the Terminal** for fun commands (`help`, `about`, `date`, etc.)
+- **Play synthwave tracks** from the Synth Beats menu
+- **Purge/restore files** in Trash Matrix
+- **Chat with Synth Assistant** for retro AI fun
+- **Try the "Run a Program" dialog** (Execute...) to launch apps by name
+
+---
+
+## 📸 Screenshots
+
+> ![Boot-up animation](image.png)
+> Boot-up animation
+
+>![alt text](image-1.png)
+>Desktop
+
+>![alt text](image-2.png)
+>Desktop apps opened up
+
+>![alt text](image-3.png)
+>Start-up menu
+---
+
+Enjoy your trip down memory lane—recharged with neon!
