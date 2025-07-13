@@ -9,8 +9,7 @@ A futuristic, web-based desktop environment that fuses the nostalgia of classic 
 
 SynthwaveOS is a browser-based "operating system" that brings together the familiar feel of Windows XP and the retro-futuristic vibes of synthwave. It features interactive desktop icons, a dynamic start menu, draggable/resizable windows, a built-in terminal, music player, meme gallery, and more—all wrapped in glowing neon grids and animated backgrounds.
 
-## 🌐 Deployment (Check it out)
-> [synthwaveos.netlify.app](#)
+🌐 **Live Demo:** [synthwaveos.netlify.app](https://synthwaveos.netlify.app)
 
 ## ✨ Features
 
