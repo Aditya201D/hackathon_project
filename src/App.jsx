@@ -379,26 +379,6 @@ const ControlMatrixWindow = ({
           />
           <div className="text-xs text-purple-400">{Math.round(musicVolume * 100)}%</div>
         </div>
-        <div className="flex items-center space-x-4 mb-4">
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={neonGrid}
-              onChange={() => setNeonGrid(v => !v)}
-              className="accent-cyan-500"
-            />
-            <span>Neon Grid</span>
-          </label>
-          <label className="flex items-center space-x-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={hyperdrive}
-              onChange={() => setHyperdrive(v => !v)}
-              className="accent-pink-500"
-            />
-            <span>Hyperdrive</span>
-          </label>
-        </div>
         <div className="mt-6">
           <div className="text-purple-300 mb-1">System Stats</div>
           <div className="text-xs">

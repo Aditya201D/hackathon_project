@@ -4,13 +4,13 @@ A futuristic, web-based desktop environment that fuses the nostalgia of classic 
 
 > **Hackathon Theme:** Blast from the Past
 
----
 
 ## 🚀 What is SynthwaveOS?
 
 SynthwaveOS is a browser-based "operating system" that brings together the familiar feel of Windows XP and the retro-futuristic vibes of synthwave. It features interactive desktop icons, a dynamic start menu, draggable/resizable windows, a built-in terminal, music player, meme gallery, and more—all wrapped in glowing neon grids and animated backgrounds.
 
----
+## 🌐 Deployment (Check it out)
+> [synthwaveos.netlify.app](#)
 
 ## ✨ Features
 
@@ -29,7 +29,7 @@ SynthwaveOS is a browser-based "operating system" that brings together the famil
   - **Terminal:** Basic command-line interface  
   - **Holo Gallery:** Meme image gallery  
   - **Synth Beats:** Built-in synthwave music player  
-  - **Control Matrix:** System toggles, volume, and fake stats  
+  - **Control Matrix:** Volume toggles, and fake stats  
   - **Execute...:** Run dialog to launch apps by name
 
 - **Synthwave Experience:**  
@@ -37,13 +37,22 @@ SynthwaveOS is a browser-based "operating system" that brings together the famil
   - Subtle watermark and boot animation  
   - Sound effects for clicks and actions
 
----
 
 ## 🕹️ How does it fit the theme? (Blast from the Past)
 
 SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast from the past"—but with a twist: everything is wrapped in synthwave/cyberpunk style. It combines the comfort of a classic OS with the energy and color of retro-futurism, blending nostalgia and modern web tech for a unique, playful experience.
 
----
+
+
+## 📝 How to Use
+
+- **Double-click** desktop icons to open apps
+- **Use the Start Menu** for more apps and features
+- **Try the Terminal** for fun commands (`help`, `about`, `date`, etc.)
+- **Play synthwave tracks** from the Synth Beats menu
+- **Purge/restore files** in Trash Matrix
+- **Chat with Synth Assistant** for retro AI fun
+- **Try the "Run a Program" dialog** (Execute...) to launch apps by name
 
 ## 🛠️ Tech Stack
 
@@ -53,7 +62,6 @@ SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast 
 - **HTML5/CSS3**
 - **Google Fonts (Orbitron, Share Tech Mono)**
 
----
 
 ## 💻 Installation & Usage
 
@@ -74,13 +82,7 @@ SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast 
     ```
     Open [http://localhost:5173](http://localhost:5173) in your browser.
 
----
 
-## 🌐 Deployment
-
-> [Live Demo Coming Soon!](#)
-
----
 
 ## 👨‍💻 Authors
 
@@ -88,19 +90,6 @@ SynthwaveOS is a creative reimagining of the Windows XP desktop—a true "blast 
 - Harshit Tyagi
 - Kapil Kant
 
----
-
-## 📝 How to Use
-
-- **Double-click** desktop icons to open apps
-- **Use the Start Menu** for more apps and features
-- **Try the Terminal** for fun commands (`help`, `about`, `date`, etc.)
-- **Play synthwave tracks** from the Synth Beats menu
-- **Purge/restore files** in Trash Matrix
-- **Chat with Synth Assistant** for retro AI fun
-- **Try the "Run a Program" dialog** (Execute...) to launch apps by name
-
----
 
 ## 📸 Screenshots
 
