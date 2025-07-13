@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react';
 import { Rnd } from 'react-rnd';
 
 // Separated and memoized window component
-const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent, openWindow }) => (
+const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent, openWindow, musicVolume, setMusicVolume, neonGrid, setNeonGrid, hyperdrive, setHyperdrive, uptimeStart }) => (
   <Rnd
     default={{
       x: window.x,
@@ -78,6 +78,16 @@ const Window = memo(({ window, minimizeWindow, closeWindow, updateWindowContent,
           <NeuralCoreWindow />
         ) : window.title == 'Execute...' ? (
         <ExecuteWindow openWindow={openWindow} closeWindow={closeWindow} window={window}/>
+        ) : window.title === 'Control Matrix' ? (
+          <ControlMatrixWindow
+            musicVolume={musicVolume}
+            setMusicVolume={setMusicVolume}
+            neonGrid={neonGrid}
+            setNeonGrid={setNeonGrid}
+            hyperdrive={hyperdrive}
+            setHyperdrive={setHyperdrive}
+            uptimeStart={uptimeStart}
+          />
         ) : (
         <div className="text-center text-cyan-300 mt-20">
           <div className="text-4xl mb-4 animate-pulse">
@@ -329,6 +339,73 @@ const ExecuteWindow = ({ openWindow, closeWindow, window }) => {
   );
 };
 
+const ControlMatrixWindow = ({
+  musicVolume, setMusicVolume,
+  neonGrid, setNeonGrid,
+  hyperdrive, setHyperdrive,
+  uptimeStart
+}) => {
+  const [fakeRam] = React.useState(() => (Math.random() * 8 + 4).toFixed(1)); // 4-12 GB
+  const [fakeCpu] = React.useState(() => (Math.random() * 80 + 10).toFixed(1)); // 10-90%
+
+  const getUptime = () => {
+    const seconds = Math.floor((Date.now() - uptimeStart) / 1000);
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h}h ${m}m ${s}s`;
+  };
+
+  return (
+    <div className="flex flex-col space-y-6 h-full w-full p-6 bg-gradient-to-br from-gray-900 via-purple-900 to-cyan-900 rounded-lg font-mono text-cyan-200">
+      <div>
+        <div className="text-xl text-purple-300 mb-2">Control Matrix</div>
+        <div className="mb-4">
+          <label className="block mb-1 text-cyan-300">Background Music Volume</label>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={musicVolume}
+            onChange={e => setMusicVolume(Number(e.target.value))}
+            className="w-full accent-purple-500"
+          />
+          <div className="text-xs text-purple-400">{Math.round(musicVolume * 100)}%</div>
+        </div>
+        <div className="flex items-center space-x-4 mb-4">
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={neonGrid}
+              onChange={() => setNeonGrid(v => !v)}
+              className="accent-cyan-500"
+            />
+            <span>Neon Grid</span>
+          </label>
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={hyperdrive}
+              onChange={() => setHyperdrive(v => !v)}
+              className="accent-pink-500"
+            />
+            <span>Hyperdrive</span>
+          </label>
+        </div>
+        <div className="mt-6">
+          <div className="text-purple-300 mb-1">System Stats</div>
+          <div className="text-xs">
+            <div>Uptime: <span className="text-cyan-400">{getUptime()}</span></div>
+            <div>RAM: <span className="text-cyan-400">{fakeRam} GB</span></div>
+            <div>CPU Usage: <span className="text-cyan-400">{fakeCpu}%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
@@ -348,13 +425,14 @@ const SynthwaveDesktop = () => {
   }, []);
   
   // Background music
-  React.useEffect(() => {
+  // Create and play new audio when the song changes
+React.useEffect(() => {
   if (audioObj) {
     audioObj.pause();
   }
   const newAudio = new Audio(currentSong);
   newAudio.loop = true;
-  newAudio.volume = 0.15;
+  newAudio.volume = musicVolume;
   setAudioObj(newAudio);
 
   // Play after user interaction
@@ -367,7 +445,14 @@ const SynthwaveDesktop = () => {
     newAudio.pause();
     document.removeEventListener('click', playAudio);
   };
-}, [currentSong, audioObj, musicVolume]);
+}, [currentSong]);
+
+// Update volume when musicVolume changes
+React.useEffect(() => {
+  if (audioObj) {
+    audioObj.volume = musicVolume;
+  }
+}, [musicVolume, audioObj]);
   
   // Click sound function
   const playClickSound = () => {
@@ -590,6 +675,13 @@ const SynthwaveDesktop = () => {
             closeWindow={closeWindow}
             updateWindowContent={updateWindowContent}
             openWindow={openWindow}
+            musicVolume={musicVolume}
+            setMusicVolume={setMusicVolume}
+            neonGrid={neonGrid}
+            setNeonGrid={setNeonGrid}
+            hyperdrive={hyperdrive}
+            setHyperdrive={setHyperdrive}
+            uptimeStart={uptimeStart}
           />
         ))}
 
