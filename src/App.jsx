@@ -102,7 +102,7 @@ const SynthAssistant = () => {
 
   // Define playClickSound within this component
   const playClickSound = () => {
-    const clickSound = new Audio('src/assets/click_sound.wav');
+    const clickSound = new Audio('/assets/click_sound.wav');
     clickSound.volume = 0.2;
     clickSound.play().catch(e => console.log('Click sound failed:', e));
   };
@@ -283,7 +283,7 @@ const SynthwaveDesktop = () => {
   const [openWindows, setOpenWindows] = useState([]);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [booting, setBooting] = useState(true);
-  const [currentSong, setCurrentSong] = useState('src/assets/Timecop1983 - On the Run.mp3');
+  const [currentSong, setCurrentSong] = useState('/assets/Timecop1983 - On the Run.mp3');
   const [audioObj, setAudioObj] = useState(null);
   
   // Audio setup
@@ -317,7 +317,7 @@ const SynthwaveDesktop = () => {
   
   // Click sound function
   const playClickSound = () => {
-    const clickSound = new Audio('src/assets/click_sound.wav');
+    const clickSound = new Audio('/assets/click_sound.wav');
     clickSound.volume = 0.3;
     clickSound.play().catch(e => console.log('Click sound failed:', e));
   };
@@ -344,17 +344,18 @@ const SynthwaveDesktop = () => {
   ];
 
   const synthBeats = [
-  { name: "Automatic Pilot", file: "src/assets/Automatic_Pilot.mp3" },
-  { name: "Broken City", file: "src/assets/Broken_City.mp3" },
-  { name: "Don't Be Afraid Of Your Emotions", file: "src/assets/Don't_Be_Afraid_Of_Your_Emotions.mp3" },
-  { name: "The Sky is Shining Tonight", file: "src/assets/The_Sky_is_Shining_Tonight.mp3" },
-  { name: "Tomorrow Will Be Rain", file: "src/assets/Tomorrow_Will_Be_Rain.mp3" },
+  { name: "HOME - Hold", file: "/assets/HOME - Hold.mp3" },
+  { name: "Miami Nights 1984 - Accelerated", file: "/assets/Miami Nights 1984 - Accelerated.mp3" },
+  { name: "Synthwave goose - Blade Runner 2049", file: "/assets/Synthwave goose - Blade Runner 2049.mp3" },
+  { name: "Timecop1983 - On the Run", file: "/assets/Timecop1983 - On the Run.mp3" },
+  { name: "TRON Legacy - End of Line (Slowed) - Daft Punk", file: "/assets/TRON_ Legacy - End of Line (Slowed) - Daft Punk.mp3" },
+  { name: "Venger (feat. Greta Link)", file: "/assets/Venger (feat. Greta Link).mp3" },
   ];
 
   const holoGalleryImages = [
-  { name: "Nyan Cat", src: "src/assets/nyan_cat.png" },
-  { name: "Peter's Computer", src: "src/assets/peter's_computer.jpg" },
-  { name: "Trollface", src: "src/assets/Trollface.png" },
+  { name: "Nyan Cat", src: "/assets/nyan_cat.png" },
+  { name: "Peter's Computer", src: "/assets/peter's_computer.jpg" },
+  { name: "Trollface", src: "/assets/Trollface.png" },
   ];
 
   const openWindow = (iconName) => {
